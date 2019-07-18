@@ -1,3 +1,5 @@
+
+#include "pch.h"
 #include <iostream>
 using namespace std;
 
@@ -187,6 +189,7 @@ float getStdDev(float* myData) {
 		cout << myData[i] << " ";
 	cout << endl;
 	cout << "The standard deviation of these data values is " << stdDeviation;
+	return stdDeviation;
 }
 ///////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////
@@ -197,6 +200,7 @@ float getVariance(float* myData) {
 		variance += pow(myData[i] - getMean(myData), 2);
 	variance = variance / getTotal;
 	cout << "The variance of these data values is " << variance;
+	return variance;
 }
 ///////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////
