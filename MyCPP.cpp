@@ -1,23 +1,24 @@
-
-#include "pch.h"
 #include <iostream>
 using namespace std;
 
 //PROPOTYPE
 void Run_Statistics_Financing();
-void mode();
-void mean();
-void median();
-void getStdDev();
-void getVariance();
+float getMode(float*);
+float getMean(float*);
+float getMedian(float*);
+float getStdDev(float*);
+float getVariance(float*);
 void calSimpleInterest();
 void calCompoundInterest();
 void calARP();
+float* getData();
 
+int getTotal = 0;
 
 //MAIN 
 int main()
 {
+
 	Run_Statistics_Financing();
 	return 0;
 }
@@ -52,21 +53,29 @@ void Run_Statistics_Financing() {
 	switch (menu_choice)
 	{
 
-	case '1': mean();
+	case '1':
+		getMean(getData());
 		break;
-	case '2': median();
+	case '2':
+		getMedian(getData());
 		break;
-	case '3': mode();
+	case '3':
+		getMode(getData());
 		break;
-	case '4': getStdDev();
+	case '4':
+		getStdDev(getData());
 		break;
-	case '5': getVariance();
+	case '5':
+		getVariance(getData());
 		break;
-	case '6': calSimpleInterest();
+	case '6':
+		//calSimpleInterest();
 		break;
-	case '7': calCompoundInterest();
+	case '7':
+		//calCompoundInterest();
 		break;
-	case '8':  calARP();
+	case '8':
+		//calARP();
 		break;
 
 	default:
@@ -84,111 +93,69 @@ void Run_Statistics_Financing() {
 ///////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////
-void mean() {
-
-	int totalNumber, num;
-	int * myData;
+//GET DATA
+float* getData() {
+	float* myData;
+	//int getTotal;
 	cout << "How many numbers would you like to type? ";
-	cin >> totalNumber;
-	myData = new (nothrow) int[totalNumber];
+	cin >> getTotal;
+	myData = new (nothrow) float[getTotal];
 	if (myData == nullptr)
 		cout << "Error: memory could not be allocated";
 	else
 	{
-		for (num = 0; num < totalNumber; num++)
+		for (int i = 0; i < getTotal; i++)
 		{
 			cout << "Enter number: ";
-			cin >> myData[num];
+			cin >> myData[i];
 		}
 	}
-
-	//GET TOTAL & CALCULATE MEAN
-	float total = 0.0f;
-	for (int i = 0; i < totalNumber; i++) {
-		total += myData[i];
-	}
-	cout << "The mean is " << total / totalNumber << endl;
+	return myData;
 }
 
-void mean(int * myData, int totalNumber) {
-	int num;
-	cout << "How many numbers would you like to type? ";
-	cin >> totalNumber;
-	myData = new (nothrow) int[totalNumber];
-	if (myData == nullptr)
-		cout << "Error: memory could not be allocated";
-	else
-	{
-		for (num = 0; num < totalNumber; num++)
-		{
-			cout << "Enter number: ";
-			cin >> myData[num];
-		}
-	}
 
+///////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////
+float getMean(float* myData) {
+	float mean;
 	//GET TOTAL & CALCULATE MEAN
 	float total = 0.0f;
-	for (int i = 0; i < totalNumber; i++) {
+	for (int i = 0; i < getTotal; i++) {
 		total += myData[i];
 	}
-	cout << "The mean is " << total / totalNumber << endl;
+	//cout << "The size of is " << getTotal << endl;
+	//cout << "The total is " << total << endl;
+	mean = total / getTotal;
+	cout << "The mean is " << mean << endl;
+	return mean;
 }
 
 ///////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////
-void median() {
-
-	int totalNumber, num;
-	int * myData;
-	cout << "How many numbers would you like to type? ";
-	cin >> totalNumber;
-	myData = new (nothrow) int[totalNumber];
-	if (myData == nullptr)
-		cout << "Error: memory could not be allocated";
-	else
-	{
-		for (num = 0; num < totalNumber; num++)
-		{
-			cout << "Enter number: ";
-			cin >> myData[num];
-		}
-	}
-
-
-	//CALCULATE THE MEDIAN (middle number)
-	if (totalNumber % 2 != 0) {// is the # of elements odd?
-		int temp = ((totalNumber + 1) / 2) - 1;
+float getMedian(float* myData) {
+	float myMedian = 0.0;
+	if ((getTotal) % 2 != 0) {// is the # of elements odd?
+		int temp = (((getTotal)+1) / 2) - 1;
+		myMedian = myData[temp];
 		cout << "The median is " << myData[temp] << endl;
 	}
 	else {// then it's even! :)
-		cout << "The median is " << myData[(totalNumber / 2) - 1] << " and " << myData[totalNumber / 2] << endl;
+		myMedian = myData[(getTotal / 2) - 1];
+		cout << "The median is " << myData[(getTotal / 2) - 1] << " and " << myData[getTotal / 2] << endl;
 	}
+	return myMedian;
+
 }
 ///////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////
-void mode() {
+float getMode(float* myData) {
 
-	int totalNumber, num;
-	int * myData;
-	cout << "How many numbers would you like to type? ";
-	cin >> totalNumber;
-	myData = new (nothrow) int[totalNumber];
-	if (myData == nullptr)
-		cout << "Error: memory could not be allocated";
-	else
-	{
-		for (num = 0; num < totalNumber; num++)
-		{
-			cout << "Enter number: ";
-			cin >> myData[num];
-		}
-	}
-
-	int* ipRepetition = new int[totalNumber];
+	int* ipRepetition = new int[getTotal];
 	// alocate a new array in memory of the same size (round about way of defining number of elements by a variable)
-	for (int i = 0; i < totalNumber; i++) {
+	for (int i = 0; i < getTotal; i++) {
 		ipRepetition[i] = 0;//initialize each element to 0
 		int j = 0;//
 		while ((j < i) && (myData[i] != myData[j])) {
@@ -199,55 +166,24 @@ void mode() {
 		(ipRepetition[j])++;
 	}
 	int iMaxRepeat = 0;
-	for (int i = 1; i < totalNumber; i++) {
+	for (int i = 1; i < getTotal; i++) {
 		if (ipRepetition[i] > ipRepetition[iMaxRepeat]) {
 			iMaxRepeat = i;
 		}
 	}
 	cout << "The mode is " << myData[iMaxRepeat] << endl;
-
+	return myData[iMaxRepeat];
 }
 ///////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////
-void getStdDev() {
+float getStdDev(float* myData) {
 
-	float totalNumber;
-	int num;
-	float * myData;
-	cout << "How many numbers would you like to type? ";
-	cin >> totalNumber;
-	myData = new (nothrow) float[totalNumber];
-	if (myData == nullptr)
-		cout << "Error: memory could not be allocated";
-	else
-	{
-		for (num = 0; num < totalNumber; num++)
-		{
-			cout << "Enter number: ";
-			cin >> myData[num];
-		}
-	}
-
-
-
-	float sum = 0.0, mean, variance = 0.0, stdDeviation;
-
-	//Find mean
-	for (int i = 0; i < totalNumber; ++i)
-		sum += myData[i];
-	mean = sum / totalNumber;
-
-	//Find variance
-	for (int i = 0; i < totalNumber; ++i)
-		variance += pow(myData[i] - mean, 2);
-	variance = variance / totalNumber;
-
-
+	float sum = 0.0, stdDeviation = 0.0;
 	//Calculate Standard Deviation
-	stdDeviation = sqrt(variance);
+	stdDeviation = sqrt(getVariance(myData));
 	cout << "The data values are: ";
-	for (int i = 0; i < totalNumber; ++i)
+	for (int i = 0; i < getTotal; ++i)
 		cout << myData[i] << " ";
 	cout << endl;
 	cout << "The standard deviation of these data values is " << stdDeviation;
@@ -255,8 +191,12 @@ void getStdDev() {
 ///////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////
-void getVariance() {
-	cout << "getVariance";
+float getVariance(float* myData) {
+	float variance = 0.0;
+	for (int i = 0; i < getTotal; ++i)
+		variance += pow(myData[i] - getMean(myData), 2);
+	variance = variance / getTotal;
+	cout << "The variance of these data values is " << variance;
 }
 ///////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////
