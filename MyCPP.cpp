@@ -10,8 +10,8 @@ float getMean(float*);
 float getMedian(float*);
 float getStdDev(float*);
 float getVariance(float*);
-void calSimpleInterest();
-void calCompoundInterest();
+float calSimpleInterest();
+float calCompoundInterest();
 void calARP();
 float* getData();
 
@@ -71,13 +71,13 @@ void Run_Statistics_Financing() {
 		getVariance(getData());
 		break;
 	case '6':
-		//calSimpleInterest();
+		calSimpleInterest();
 		break;
 	case '7':
-		//calCompoundInterest();
+		calCompoundInterest();
 		break;
 	case '8':
-		//calARP();
+		calARP();
 		break;
 
 	default:
@@ -205,18 +205,76 @@ float getVariance(float* myData) {
 ///////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////
-void calSimpleInterest() {
-	cout << "calSimpleInterest";
+float calSimpleInterest() {
+	float amount, rate, time, si;
+
+	cout << "Enter Principal Amount: ";
+	cin >> amount;
+
+	cout << "Enter Rate of Interest: ";
+	cin >> rate;
+
+	cout << "Enter Period of Time: ";
+	cin >> time;
+
+	si = (amount * rate * time) / 100;
+	cout << "Simple Interest: " << si;
+	return si;
 }
 ///////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////
-void calCompoundInterest() {
+float calCompoundInterest() {
 	cout << "calCompoundInterest";
+	float p, r, t, ci;
+
+	cout << "Enter Principle, Rate and Time:\n";
+	cin >> p >> r >> t;
+
+	ci = p * pow((1 + r / 100), t);
+
+	cout << "\nCompound Interest = " << ci;
+
+	return ci;
 }
 ///////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////
 void calARP() {
-	cout << "calARP";
+	double monthlyPayment;
+	double balance;
+	double interestRate;
+	double interestPaid;
+	double initialBalance;
+	int termOfLoan;
+	double loanedFee;
+	double upFrontFee;
+	int month = 0;
+	int year = 0;
+	//Enter data
+	cout << "Enter the loan amount: $";
+	cin >> balance;
+	cout << "Enter the loan term. How many years? : $";
+	cin >> year;
+	cout << "Enter the loan term. How many months? : $";
+	cin >> month;
+	cout << "Enter the interest rate (compounded monthly) : ";
+	cin >> interestRate;
+	cout << "Enter the Loaned Fees : ";
+	cin >> loanedFee;
+	cout << "Enter the Upfont Fees : ";
+	cin >> upFrontFee;
+
+	//calculate loan term
+	termOfLoan = 12 * year + month;
+
+
+	cout << "\n\n";
+	cout << "Amount Financed:                                        $" << balance + loanedFee << endl;
+	cout << "Upfront Out-of-Pocket Fees:                             $" << upFrontFee << endl;
+	cout << "Payment Every Month:									 $" << balance << endl;
+	cout << "Total of " << termOfLoan  <<" Payments:			     $" << termOfLoan << endl;
+	cout << "Total Interest:"										<< interestRate << "%" << endl;
+	cout << "Number Of Payments:"									<< termOfLoan << endl;
+	cout << "All Payments and Fees:									 $" <<".........."  << endl;
 }
