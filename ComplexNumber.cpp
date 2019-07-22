@@ -6,7 +6,7 @@ void Run_ComplexNumber();
 void multiply();
 void add();
 void subtract();
-float conjugate();
+void conjugate();
 float polartoRectangular();
 float rectangulartoPorlar();
 void display();
@@ -85,7 +85,13 @@ void Run_ComplexNumber() {
 
 /* Function to display the sum of two complex numbers */
 void display(){
-	cout << real << "+" << imag << "i" << endl;
+	if (imag > 0) {
+		cout << real << "+" << imag << "i" << endl;
+	}
+	else {
+		cout << real << imag << "i" << endl;
+	}
+
 }
 
 
@@ -169,11 +175,17 @@ void subtract() {
 ///////////////////////////////////////////////////////////////////////////////////
 
 
-float conjugate() {
-	float a = 0.0;
+void conjugate() {
+	real = 0;
+	imag = 0;
+	int r1, img1;
+	cout << "Enter real and imaginary part of complex number" << endl;
+	cin >> r1;
+	cin >> img1;
 
-	return a;
-
+	real = r1;
+	imag = -(img1);
+	display();
 }
 
 
