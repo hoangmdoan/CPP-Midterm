@@ -113,6 +113,25 @@ float* getData() {
 	return myData;
 }
 
+float power(float base, int exp) {
+	if (exp < 0) {
+		if (base == 0)
+			return -0; // Error!!
+		return 1 / (base * power(base, (-exp) - 1));
+	}
+	if (exp == 0)
+		return 1;
+	if (exp == 1)
+		return base;
+	return base * power(base, exp - 1);
+}
+
+int fact(int n) {
+	return n <= 0 ? 1 : n * fact(n - 1);
+}
+
+
+
 
 ///////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////
@@ -195,7 +214,7 @@ float getStdDev(float* myData) {
 float getVariance(float* myData) {
 	float variance = 0.0;
 	for (int i = 0; i < getTotal; ++i)
-		variance += pow(myData[i] - getMean(myData), 2);
+		variance += power(myData[i] - getMean(myData), 2);
 	variance = variance / getTotal;
 	cout << "The variance of these data values is " << variance;
 	return variance;
@@ -229,7 +248,7 @@ float calCompoundInterest() {
 	cout << "Enter Principle, Rate and Time:\n";
 	cin >> p >> r >> t;
 
-	ci = p * pow((1 + r / 100), t);
+	ci = p * power((1 + r / 100), t);
 
 	cout << "\nCompound Interest = " << ci;
 
@@ -239,40 +258,32 @@ float calCompoundInterest() {
 ///////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////
 void calARP() {
-	double monthlyPayment;
-	double balance;
-	double interestRate;
-	double interestPaid;
-	double initialBalance;
-	int termOfLoan;
-	double loanedFee;
-	double upFrontFee;
-	int month = 0;
-	int year = 0;
-	//Enter data
-	cout << "Enter the loan amount: $";
-	cin >> balance;
-	cout << "Enter the loan term. How many years? : $";
-	cin >> year;
-	cout << "Enter the loan term. How many months? : $";
-	cin >> month;
-	cout << "Enter the interest rate (compounded monthly) : ";
-	cin >> interestRate;
-	cout << "Enter the Loaned Fees : ";
-	cin >> loanedFee;
-	cout << "Enter the Upfont Fees : ";
-	cin >> upFrontFee;
+	float L, monthly, interest, amount, annual, monthlyrate;
+	int n;
 
-	//calculate loan term
-	termOfLoan = 12 * year + month;
+	cout << "This is a monthly payments program.\n\n";
+
+	cout << "Enter the loan amount: $"; // enter 10,000 here
+	cin >> L;
+	cout << "Enter the rate percent in decimal form: "; // you enter .12 here
+	cin >> annual;
+	cout << "Enter the number of payments: "; // 36 here
+	cin >> n;
+
+	cout.setf(ios_base::fixed, ios_base::floatfield);
+	cout.precision(2);
+
+	monthlyrate = annual / 12; // Monthlyrate = .12/12     (.1)
+	monthly = (L * power(monthlyrate + 1, n) * monthlyrate) / (power(monthlyrate + 1, n) - 1);
+	amount = monthly * n;
+	interest = monthlyrate * n;  // interest = .1 * 36    (.36)
 
 
 	cout << "\n\n";
-	cout << "Amount Financed:                                        $" << balance + loanedFee << endl;
-	cout << "Upfront Out-of-Pocket Fees:                             $" << upFrontFee << endl;
-	cout << "Payment Every Month:									 $" << balance << endl;
-	cout << "Total of " << termOfLoan  <<" Payments:			     $" << termOfLoan << endl;
-	cout << "Total Interest:"										<< interestRate << "%" << endl;
-	cout << "Number Of Payments:"									<< termOfLoan << endl;
-	cout << "All Payments and Fees:									 $" <<".........."  << endl;
+	cout << "Loan Amount:                  $" << L << endl;
+	cout << "Monthly Interest Rate:         " << monthlyrate << "%" << endl;
+	cout << "Number Of Payments:            " << n << endl;
+	cout << "Monthly Payment:              $" << monthly << endl;
+	cout << "Amount Paid Back:             $" << amount << endl;
+	cout << "Interest Paid:                $" << interest << endl;
 }
