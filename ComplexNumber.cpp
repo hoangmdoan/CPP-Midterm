@@ -7,13 +7,16 @@ void multiply();
 void add();
 void subtract();
 void conjugate();
-float polartoRectangular();
-float rectangulartoPorlar();
+void polartoRectangular();
+void rectangulartoPorlar();
 void display();
 
+const double PI = 3.14159;
+const double TERMS = 7.0;
+
 //Variables
-int real = 0;
-int imag = 0;
+float real = 0;
+float imag = 0;
 
 //MAIN 
 int main()
@@ -28,6 +31,8 @@ int main()
 ///////////////////////////////////////////////////////////////////////////////////
 //BEGIN Run_Complex Number
 void Run_ComplexNumber() {
+
+
 	char menu_choice;
 	cout << "\(1) Multiplication\n"
 		<< endl
@@ -86,6 +91,9 @@ void Run_ComplexNumber() {
 /* Function to display the sum of two complex numbers */
 void display(){
 	if (imag > 0) {
+		//<< std::setprecision(digits) << d << "\n";
+		//d (rounded to 3 digits) = 0.333
+
 		cout << real << "+" << imag << "i" << endl;
 	}
 	else {
@@ -94,13 +102,53 @@ void display(){
 
 }
 
+float power(float base, int exp) {
+	if (exp < 0) {
+		if (base == 0)
+			return -0; // Error!!
+		return 1 / (base * power(base, (-exp) - 1));
+	}
+	if (exp == 0)
+		return 1;
+	if (exp == 1)
+		return base;
+	return base * power(base, exp - 1);
+}
 
-/* Function to set the values of
- * real and imaginary part of each complex number
- */
-void setvalue(){
-	cin >> real;
-	cin >> imag;
+int fact(int n) {
+	return n <= 0 ? 1 : n * fact(n - 1);
+}
+
+
+
+float sine(int deg) {
+	deg %= 360; // make it less than 360
+	float rad = deg * PI / 180;
+	float sin = 0;
+
+	int i;
+	for (i = 0; i < TERMS; i++) { // That's Taylor series!!
+		sin += power(-1, i) * power(rad, 2 * i + 1) / fact(2 * i + 1);
+	}
+	return sin;
+}
+
+float cosine(int deg) {
+	deg %= 360; // make it less than 360
+	float rad = deg * PI / 180;
+	float cos = 0;
+
+	int i;
+	for (i = 0; i < TERMS; i++) { // That's also Taylor series!!
+		cos += power(-1, i) * power(rad, 2 * i) / fact(2 * i);
+	}
+	return cos;
+}
+
+
+float my_atan(float x)
+{
+	return x - (x*x*x) / 3 + (x*x*x*x*x) / 5 - (x*x*x*x*x*x*x) / 7;
 }
 
 
@@ -194,22 +242,48 @@ void conjugate() {
 ///////////////////////////////////////////////////////////////////////////////////
 
 
-float polartoRectangular() {
-	float a = 0.0;
+void polartoRectangular() {
+	real = 0;
+	imag = 0;
+	int r, a;
+	cout << "Enter the radius:" << endl;
+	cin >> r;
+	cout << "Enter the angle:" << endl;
+	cin >> a;
 
-	return a;
+	real = r*cos(a);
+	imag = r*sin(a);
 
+	display();
 }
 
 ///////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////
 
+float sqroot(float square)
+{
+	float root = square / 3;
+	int i;
+	if (square <= 0) return 0;
+	for (i = 0; i < 32; i++)
+		root = (root + square / root) / 2;
+	return root;
+}
 
-float rectangulartoPorlar() {
-	float a = 0.0;
 
-	return a;
+void rectangulartoPorlar() {
+	float r1, img1;
+	float r, a;
+	cout << "Enter real part of complex number" << endl;
+	cin >> r1;
+	cout << "Enter imaginary part of complex number" << endl;
+	cin >> img1;
+
+	r = sqroot(power(r1, 2) + power(img1, 2));
+	a = my_atan(img1 / r1);
+	cout << "Radius: " << r << endl;
+	cout << "Angle: " << a;
 
 }
 
