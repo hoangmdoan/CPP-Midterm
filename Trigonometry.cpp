@@ -1,23 +1,53 @@
+// ConsoleApplication_Tri.cpp : This file contains the 'main' function. Program execution begins and ends there.
+//
+
+#include "pch.h"
 #include <iostream>
 using namespace std;
 
+// Variables for calculations
+const float PI = 3.14159;
+const float TERMS = 7.0; // Number of terms used for the Taylor Series
+int Degrees = Degrees %= 360;// To ensure that the answers are no more than 360 deg!
+int Anwser;
+float InputValue;//The number you put in to find the trig identity of
+float Sin,Tan,Sec,Csc,Cot = 0;
+long double  InverseSin, InverseCos, InverseTan;
+
+// Constants for menu choice
+const int Sine = 1,
+Cosine = 2,
+Tangent = 3,
+Secant = 4,
+Cosecant = 5,
+Cotangent = 6,
+InverseSine = 7,
+InverseCosine = 8,
+InverseTangent = 9,
+Exit = 10;
+
 //Function prototypes
 void showMenu();
-float getSine(float);
-float getCosine(float);
-float getTangent(float);
-float getSecant(float);
-float getCosecant(float);
-float getCotangent(float);
-float getInvereSine(float);
-float getInverseCosine(float);
-float getInverseTangent(float);
+float getSine(int);
+float getCosine(int);
+float getTangent(int);
+float getSecant(int);
+float getCosecant(int);
+float getCotangent(int);
+float getInvereSine(int);
+float getInverseCosine(int);
+float getInverseTangent(int);
+
+float Power(float, int);
+int Fact(int);
 
 
 
 int main()
 {
 //run menu
+	//cout << "Pow 2^3 is: " << Power(2,3) <<endl;
+	//cout << "Fact 3 is: " << Fact(3);
 	showMenu();
 return 0;
 }
@@ -46,32 +76,68 @@ void showMenu() {
 	{
 
 	case '1':
-		getSine(0);
+		int myData;
+		cout << "What would you like to find the sine of?\n"
+			<< "Enter your answer in Radians:";
+		cin >> myData;
+		getSine(myData);
 		break;
 	case '2':
-		getCosine(0);
+	//	int myData;
+		cout << "What would you like to find the cos of?\n"
+			<< "Enter your answer in Radians:";
+		cin >> myData;
+		getCosine(myData);
 		break;
 	case '3':
-		getTangent(0);
+	//	int myData;
+		cout << "What would you like to find the cos of?\n"
+			<< "Enter your answer in Radians:";
+		cin >> myData;
+		getTangent(myData);
 		break;
 	case '4':
-		getSecant(0);
+	//	int myData;
+		cout << "What would you like to find the cos of?\n"
+			<< "Enter your answer in Radians:";
+		cin >> myData;
+		getSecant(myData);
 		break;
 	case '5':
-		getCosecant(0);
+	//	int myData;
+		cout << "What would you like to find the cos of?\n"
+			<< "Enter your answer in Radians: ";
+		cin >> myData;
+		getCosecant(myData);
 		break;
 	case '6':
-		getCotangent(0);
+	//	int myData;
+		cout << "What would you like to find the cos of?\n"
+			<< "Enter your answer in Radians: ";
+		cin >> myData;
+		getCotangent(myData);
 		break;
 	case '7':
-		getInvereSine(0);
+	//	int myData;
+		cout << "What would you like to find the cos of?\n"
+			<< "Enter your answer in Radians: ";
+		cin >> myData;
+		getInvereSine(myData);
 		break;
 	case '8':
-		getInverseCosine(0);
+	//	int myData;
+		cout << "What would you like to find the cos of?\n"
+			<< "Enter your answer in Radians: ";
+		cin >> myData;
+		getInverseCosine(myData);
 		break;
 
 	case '9':
-		getInverseTangent(0);
+	//	int myData;
+		cout << "What would you like to find the cos of?\n"
+			<< "Enter your answer in Radians: ";
+		cin >> myData;
+		getInverseTangent(myData);
 		break;
 
 	case '10':
@@ -86,18 +152,40 @@ void showMenu() {
 	cout << endl;
 }
 
-//////////////////////////////////////////////////////////
-/////////////////////////////////////////////////////////
+// Equation for evaluating the powers of a number
 
-float getSine(float myNum) {
-	cout << "welcome to my getSine" << endl;
-	float mySin = 0;
-	//body code of Sine
-	return mySin;
+float Power(float base, int exp) {
+	if (exp < 0) {
+		if (base == 0)
+			return -0; // Error!!
+		return 1 / (base * Power(base, (-exp) - 1));
+	}
+	if (exp == 0)
+		return 1;
+	if (exp == 1)
+		return base;
+	return base * Power(base, exp - 1);
+}
+
+int Fact(int n) {
+	return n <= 0 ? 1 : n * Fact(n - 1);
 }
 //////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////
-float getCosine(float myNum) {
+
+float getSine(int myNum) {
+	myNum %= 360; // make it less than 360
+	float rad = myNum * PI / 180;
+	float sin = 0;
+	for (int i = 0; i < TERMS; i++) { // That's Taylor series!!
+		sin += Power(-1, i) * Power(rad, 2 * i + 1) / Fact(2 * i + 1);
+	}
+	cout << "The sin of the given value is " << sin << " radians." << endl;
+	return sin;
+}
+//////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////
+float getCosine(int myNum) {
 	cout << "welcome to my getCosine" << endl;
 	float myCosine = 0;
 	//body of code Cosine
@@ -110,7 +198,7 @@ float getCosine(float myNum) {
 
 //////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////
-float getTangent(float myNum) {
+float getTangent(int myNum) {
 	cout << "welcome to my getTangent" << endl;
 	float myTanget = 0;
 
@@ -120,7 +208,7 @@ float getTangent(float myNum) {
 }
 //////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////
-float getSecant(float myNum) {
+float getSecant(int myNum) {
 	cout << "welcome to my getSecant" << endl;
 	float mySecant = 0;
 
@@ -129,7 +217,7 @@ float getSecant(float myNum) {
 }
 //////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////
-float getCosecant(float myNum) {
+float getCosecant(int myNum) {
 	cout << "welcome to my getCosecant" << endl;
 	float myCoseant = 0;
 
@@ -137,7 +225,7 @@ float getCosecant(float myNum) {
 }
 //////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////
-float getCotangent(float myNum) {
+float getCotangent(int myNum) {
 	cout << "welcome to my getCotangent" << endl;
 	float myCotangent = 0;
 
@@ -148,7 +236,7 @@ float getCotangent(float myNum) {
 
 //////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////
-float getInvereSine(float myNum) {
+float getInvereSine(int myNum) {
 	cout << "welcome to my getInvereSine" << endl;
 	float myInvereSine = 0;
 
@@ -157,7 +245,7 @@ float getInvereSine(float myNum) {
 }
 //////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////
-float getInverseCosine(float myNum) {
+float getInverseCosine(int myNum) {
 	cout << "welcome to my getInverseCosine" << endl;
 	float myInverseCosine = 0;
 
@@ -168,7 +256,7 @@ float getInverseCosine(float myNum) {
 }
 //////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////
-float getInverseTangent(float myNum) {
+float getInverseTangent(int myNum) {
 	cout << "welcome to my getInverseTangent" << endl;
 	float myInverseTangent = 0;
 
