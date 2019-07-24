@@ -49,29 +49,29 @@ void showMenu() {
 		getSine(0);
 		break;
 	case '2':
-		//getCosine(0);
+		getCosine(0);
 		break;
 	case '3':
-		//getTangent(0);
+		getTangent(0);
 		break;
 	case '4':
-	//	getSecant(0);
+		getSecant(0);
 		break;
 	case '5':
-	//	getCosecant(0);
+		getCosecant(0);
 		break;
 	case '6':
-	//	getCotangent(0);
+		getCotangent(0);
 		break;
 	case '7':
-	//	getInvereSine(0);
+		getInvereSine(0);
 		break;
 	case '8':
-	//	getInverseCosine(0);
+		getInverseCosine(0);
 		break;
 
 	case '9':
-	//	getInverseTangent(0);
+		getInverseTangent(0);
 		break;
 
 	case '10':
